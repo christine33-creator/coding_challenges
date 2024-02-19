@@ -1,0 +1,112 @@
+import sys
+
+def count_bytes(filename):
+    """
+    Counts the number of bytes in a file.
+
+    Args:
+      filename: The name of the file to count.
+    Returns:
+      The number of bytes in the file, or None if there was an error.
+    """
+    try:
+        with open(filename, 'rb') as f:
+            return len(f.read())
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+
+def count_lines(filename):
+    """
+    Counts the number of lines in a file.
+
+    Args:
+      filename: The name of the file to count.
+    Returns:
+      The number of lines in the file, or None if there was an error.
+    """
+    try:
+        with open(filename, 'r') as f:
+            return sum(1 for line in f)
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+
+def count_words(filename):
+    """
+    Counts the number of words in a file.
+
+    Args:
+      filename: The name of the file to count.
+    Returns:
+      The number of words in the file, or None if there was an error.
+    """
+    try:
+        with open(filename, 'r') as f:
+            return sum(len(line.split()) for line in f)
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+
+def count_characters(filename):
+    """
+    Counts the number of characters in a file.
+
+    Args:
+      filename: The name of the file to count.
+    Returns:
+      The number of characters in the file, or None if there was an error.
+    """
+    try:
+        with open(filename, 'r') as f:
+            return sum(len(line) for line in f)
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+
+def main():
+    """
+    Main function to parse arguments and call appropriate count function.
+    """
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+        count = count_bytes(filename)
+        if count is not None:
+            print(f"{count} bytes in {filename}")
+        count = count_lines(filename)
+        if count is not None:
+            print(f"{count} lines in {filename}")
+        count = count_words(filename)
+        if count is not None:
+            print(f"{count} words in {filename}")
+        count = count_characters(filename)
+        if count is not None:
+            print(f"{count} characters in {filename}")
+    elif len(sys.argv) == 3:
+        option = sys.argv[1]
+        filename = sys.argv[2]
+        if option == '-c':
+            count = count_bytes(filename)
+            if count is not None:
+                print(f"{count} bytes in {filename}")
+        elif option == '-l':
+            count = count_lines(filename)
+            if count is not None:
+                print(f"{count} lines in {filename}")
+        elif option == '-w':
+            count = count_words(filename)
+            if count is not None:
+                print(f"{count} words in {filename}")
+        elif option == '-m':
+            count = count_characters(filename)
+            if count is not None:
+                print(f"{count} characters in {filename}")
+    else:
+        print("Usage: ccwc <filename> (count bytes, lines, words, and characters)")
+        print("       ccwc -c <filename> (count bytes)")
+        print("       ccwc -l <filename> (count lines)")
+        print("       ccwc -w <filename> (count words)")
+        print("       ccwc -m <filename> (count characters)")
+
+if __name__ == "__main__":
+    main()
